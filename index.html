@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Word</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+    <h1 class="head">PRAVEEN <span class="highlight">GAMES...</span></h1>
+    <marquee class="scroll">THIS GAME IS DEVELOPED BY VISHNU, VIKRAM, HARSHA, PRASANNA</marquee>
+    <h2 class="greet">WELCOME TO <span class="h2">HANGMAN </span>GAME!!!</h2>
+    <form action="/start" method="post">
+        <p class="gameins">Select game mode:
+            <select class="option" name="level" required>
+                <option value="easy">Easy</option>
+                <option value="normal">Normal</option>
+                <option value="hard">Hard</option>
+            </select>
+        </p class="play-button">
+        <button type="submit" class="play">Play</button>
+    </form>
+</body>
+<style>
+    .play-button{
+        width:300px;
+        display: inline-block;
+        padding-left: 0px;
+    }
+    .play {
+        font-size: 26px;
+        font-weight: 500;
+        padding: 10px 20px;
+        margin-left: 100px;
+        margin-top: 500px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+        background-color: blue;
+    }
+    .play:hover {
+        cursor: pointer;
+        background-color: white;
+        color: blue;
+    }
+    .gameins {
+        font-size: 50px;
+        color: rgb(25, 207, 70);
+        margin-left: 500px;
+        display: inline-block;
+        margin-bottom: 0;
+    }
+    .option{
+        padding: 20px 20px 20px 20px;
+    }
+    .body {
+        background-color: blue;
+        background-image: url('https://i.pinimg.com/originals/9a/25/87/9a25875db8190745702bcf0f152976d3.gif');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .head {
+        font-size: 60px;
+        text-align: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        margin-left: 550px;
+        color: antiquewhite;
+        display: inline-block;
+        margin-bottom: 2px;
+        margin-top: 40px;
+    }
+    .highlight {
+        color: red;
+    }
+    .greet {
+        font-size: 45px;
+        text-align: center;
+        font-family: "Roboto", serif;
+        color: antiquewhite;
+        display: block;
+        margin-top: 0;
+    }
+    .h2 {
+        color: greenyellow;
+        font-family: "Roboto", serif;
+    }
+    .scroll {
+        color: white;
+        text-decoration: underline;
+        font-size: 40px;
+    }
+</style>
+</html>

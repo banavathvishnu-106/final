@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Hangman</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+        }
+
+        /* Interactive Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://wallpapercave.com/wp/wp3284848.gif') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            filter: brightness(0.6); /* Dim the background slightly */
+        }
+
+        .game-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .hangman-container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        /* Hangman structure */
+        .gallows {
+            width: 200px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .vertical-pole {
+            width: 10px;
+            height: 300px;
+            background-color: black;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .rope {
+            width: 2px;
+            height: 50px;
+            background-color: black;
+            position: absolute;
+            left: 100px;
+            top: 10px;
+        }
+
+        /* Hangman parts */
+        .head {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid black;
+            position: absolute;
+            left: 75px;
+            top: 60px;
+            display: none;
+        }
+
+        .body {
+            width: 2px;
+            height: 80px;
+            background-color: black;
+            position: absolute;
+            left: 100px;
+            top: 110px;
+            display: none;
+        }
+
+        .left-arm {
+            width: 50px;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            left: 50px;
+            top: 130px;
+            transform: rotate(45deg);
+            display: none;
+        }
+
+        .right-arm {
+            width: 50px;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            left: 100px;
+            top: 130px;
+            transform: rotate(-45deg);
+            display: none;
+        }
+
+        .left-leg {
+            width: 50px;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            left: 50px;
+            top: 190px;
+            transform: rotate(-45deg);
+            display: none;
+        }
+
+        .right-leg {
+            width: 50px;
+            height: 2px;
+            background-color: black;
+            position: absolute;
+            left: 100px;
+            top: 190px;
+            transform: rotate(45deg);
+            display: none;
+        }
+
+        /* Word Display Styles */
+        .word-display {
+            font-size: 30px;
+            margin: 20px 0;
+        }
+
+        .letter {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .missing {
+            color: red;
+        }
+
+        .message {
+            font-size: 20px;
+            color: cyan;
+        }
+
+        .guessed-letters, .wrong-guesses {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .guess-form {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: white;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Hangman Game</h1>
+
+        <!-- Hangman Graphics -->
+        <div class="hangman-container">
+            <div class="gallows"></div>
+            <div class="vertical-pole"></div>
+            <div class="rope"></div>
+            <div class="head" {% if wrong_guesses >= 1 %} style="display: block;" {% endif %}></div>
+            <div class="body" {% if wrong_guesses >= 2 %} style="display: block;" {% endif %}></div>
+            <div class="left-arm" {% if wrong_guesses >= 3 %} style="display: block;" {% endif %}></div>
+            <div class="right-arm" {% if wrong_guesses >= 4 %} style="display: block;" {% endif %}></div>
+            <div class="left-leg" {% if wrong_guesses >= 5 %} style="display: block;" {% endif %}></div>
+            <div class="right-leg" {% if wrong_guesses >= 6 %} style="display: block;" {% endif %}></div>
+        </div>
+
+        <!-- Word Progress -->
+        <div class="word-display">
+            Word: 
+            {% for char in display %}
+                <span class="letter {% if char == '_' %}missing{% endif %}">{{ char }}</span>
+            {% endfor %}
+        </div>
+
+        <!-- Messages -->
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+
+        <!-- Guessed Letters -->
+        <div class="guessed-letters">
+            Guessed Letters: {{ ', '.join(guessed_letters) }}
+        </div>
+
+        <!-- Wrong Guesses -->
+        <div class="wrong-guesses">
+            Wrong Guesses: {{ wrong_guesses }} / {{ max_wrong }}
+        </div>
+
+        <!-- Guess Form -->
+        <div class="guess-form">
+            <form action="/play" method="post">
+                <label for="guess">Guess a letter:</label>
+                <input type="text" id="guess" name="guess" maxlength="1" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Reset Game -->
+        <div>
+            <a href="/reset" style="color: cyan; text-decoration: underline;">Reset Game</a>
+        </div>
+    </div>
+</body>
+</html>
